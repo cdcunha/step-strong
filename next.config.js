@@ -12,8 +12,15 @@ const nextConfig = {
   },
   // Configure images for Vercel
   images: {
-    domains: ['vercel.com'],
+    domains: ['vercel.com', 'step-strong.vercel.app', 'step-strong-vqnu.vercel.app'],
+    unoptimized: true, // Required for static exports
   },
+  // Enable static exports for Vercel
+  output: 'export',
+  // Optional: Add base path if using a custom domain
+  // basePath: '/your-base-path',
+  // Optional: Configure the build output directory
+  distDir: '.next',
 };
 
 module.exports = nextConfig;
