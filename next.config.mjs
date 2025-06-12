@@ -10,8 +10,6 @@ const nextConfig = {
     });
     return config;
   },
-  // Add support for static exports
-  output: 'export',
   // Configure images for static export
   images: {
     unoptimized: true,
