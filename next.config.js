@@ -1,5 +1,5 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
+const { readFileSync } = require('fs');
+const { join } = require('path');
 
 // Read package.json to get the version
 const packageJson = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8'));
@@ -29,8 +29,7 @@ const nextConfig = withPWA({
   },
   images: {
     unoptimized: true,
-    },
-  });
-  
-  export default nextConfig;
-  
+  }
+});
+
+module.exports = nextConfig;
