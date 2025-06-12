@@ -10,11 +10,9 @@ const nextConfig = {
     });
     return config;
   },
-  // Add support for static exports
-  output: 'export',
-  // Configure images for static export
+  // Configure images for Vercel
   images: {
-    unoptimized: true,
+    domains: ['vercel.com'],
   },
 };
 
