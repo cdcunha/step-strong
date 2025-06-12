@@ -52,17 +52,17 @@ export default function HomeContent() {
                   {currentWeek > week || isWeekComplete(week) ? (
                     <>
                       <CheckCircleIcon className="-ml-1 mr-2 h-5 w-5" />
-                      View
+                      View Week {week}
                     </>
                   ) : currentWeek === week ? (
                     <>
                       <ArrowPathIcon className="animate-spin -ml-1 mr-2 h-5 w-5" />
-                      Continue
+                      Continue Week {week}
                     </>
                   ) : (
                     <>
                       <ClockIcon className="-ml-1 mr-2 h-5 w-5" />
-                      Locked
+                      Start Week {week}
                     </>
                   )}
                 </Link>
@@ -71,6 +71,45 @@ export default function HomeContent() {
           ))}
         </div>
       </div>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Link
+          href="/daily-routine"
+          className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
+        >
+          <div className="px-4 py-5 sm:p-6">
+            <h3 className="text-lg font-medium text-gray-900">Daily Routine</h3>
+            <p className="mt-2 text-sm text-gray-500">
+              Perform these exercises daily to improve flexibility and maintain mobility.
+            </p>
+          </div>
+        </Link>
+      
+        <Link
+          href={`/week/${currentWeek}`}
+          className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
+        >
+          <div className="px-4 py-5 sm:p-6">
+            <h3 className="text-lg font-medium text-gray-900">
+              Week {currentWeek} Strengthening
+            </h3>
+            <p className="mt-2 text-sm text-gray-500">
+              Your current week's strengthening program (3x per week).
+            </p>
+          </div>
+        </Link>
+      
+        <Link
+          href="/progress"
+          className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
+        >
+          <div className="px-4 py-5 sm:p-6">
+            <h3 className="text-lg font-medium text-gray-900">Your Progress</h3>
+            <p className="mt-2 text-sm text-gray-500">
+              Track your progress and see how far you've come.
+            </p>
+          </div>
+        </Link>
+       </div>
     </div>
   );
 }
