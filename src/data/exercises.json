@@ -1,0 +1,339 @@
+{
+  "programName": "5-Week Foot & Calf Strengthening Program",
+  "programDescription": "A progressive program designed to strengthen weak legs, improve calf endurance, and address issues common in sedentary individuals.",
+  "dailyRoutine": {
+    "name": "Daily Routine",
+    "description": "Perform these exercises daily to improve flexibility and maintain mobility.",
+    "morning": [
+      {
+        "id": "morning-1",
+        "name": "Calf Raises",
+        "description": "Stand with feet hip-width apart, hands on wall/chair for balance. Rise up onto balls of feet, lifting heels as high as possible. Hold for 1-2 seconds at the top. Lower slowly back to starting position.",
+        "duration": 30,
+        "sets": 3,
+        "reps": "15-20",
+        "category": "morning",
+        "progression": "Progress to single-leg: lift one foot off ground, perform on standing leg"
+      },
+      {
+        "id": "morning-2",
+        "name": "Toe Walks",
+        "description": "Rise up onto balls of feet (tiptoes). Walk forward maintaining height on toes. Keep core engaged, take small steps.",
+        "duration": 30,
+        "sets": 1,
+        "reps": "30 seconds forward, 30 seconds backward",
+        "category": "morning"
+      },
+      {
+        "id": "morning-3",
+        "name": "Heel Walks",
+        "description": "Lift toes and front of feet off ground. Walk forward on heels only. Keep toes pulled up toward shins. Take deliberate, controlled steps.",
+        "duration": 30,
+        "sets": 1,
+        "reps": "30 seconds",
+        "category": "morning"
+      },
+      {
+        "id": "morning-4",
+        "name": "Ankle Circles",
+        "description": "Sit or stand, lift one foot slightly off ground. Draw large circles with your toes (move from ankle).",
+        "sets": 1,
+        "reps": "10 circles each direction, both feet",
+        "category": "morning"
+      }
+    ],
+    "evening": [
+      {
+        "id": "evening-1",
+        "name": "Calf Stretches (Straight Leg)",
+        "description": "Stand arm's length from wall, hands flat against wall. Step back with one leg, keep it straight. Lean forward, keeping back heel on ground. Feel stretch in calf of back leg.",
+        "duration": 30,
+        "sets": 1,
+        "reps": "30 seconds each leg",
+        "category": "evening"
+      },
+      {
+        "id": "evening-2",
+        "name": "Calf Stretches (Bent Knee)",
+        "description": "Same position as straight leg stretch. Bend the back knee slightly while keeping heel down. Targets deeper calf muscles.",
+        "duration": 30,
+        "sets": 1,
+        "reps": "30 seconds each leg",
+        "category": "evening"
+      },
+      {
+        "id": "evening-3",
+        "name": "Plantar Fascia Stretch",
+        "description": "Sit with one leg crossed over other. Grab toes and pull them back toward your shin. Feel stretch along bottom of foot.",
+        "duration": 30,
+        "sets": 1,
+        "reps": "30 seconds each foot",
+        "category": "evening"
+      },
+      {
+        "id": "evening-4",
+        "name": "Tennis Ball Roll",
+        "description": "Sit with tennis ball under one foot. Roll ball from heel to toes, applying pressure. Focus on tender spots for 10-15 seconds.",
+        "duration": 60,
+        "sets": 1,
+        "reps": "1-2 minutes per foot",
+        "category": "evening"
+      },
+      {
+        "id": "evening-5",
+        "name": "Achilles Stretches (Wall Push-ups)",
+        "description": "Stand arm's length from wall. Place hands on wall, step one foot back. Keep back leg straight, lean into wall. Feel stretch in back of lower leg.",
+        "duration": 30,
+        "sets": 1,
+        "reps": "30 seconds each leg",
+        "category": "evening"
+      }
+    ]
+  },
+  "strengtheningProgram": {
+    "name": "Strengthening Program",
+    "description": "Perform these exercises 3 times per week to build strength and endurance.",
+    "weeks": [
+      {
+        "weekNumber": 1,
+        "exercises": [
+          {
+            "id": "week1-1",
+            "name": "Seated Calf Raises",
+            "description": "Sit in chair with feet flat on floor. Place weight (book/water bottle) on thighs. Lift heels off ground, squeeze calves. Hold 2 seconds, lower slowly.",
+            "sets": 3,
+            "reps": "15-20",
+            "category": "strength"
+          },
+          {
+            "id": "week1-2",
+            "name": "Towel Scrunches",
+            "description": "Sit with towel laid flat in front of feet. Use toes to scrunch/grab towel toward you. Release and repeat.",
+            "sets": 3,
+            "reps": "15 each foot",
+            "category": "strength"
+          },
+          {
+            "id": "week1-3",
+            "name": "Resistance Band Dorsiflexion",
+            "description": "Sit with legs extended, resistance band around feet. Hold band ends in hands. Pull toes back toward shins against resistance. Hold 2 seconds, return slowly.",
+            "sets": 3,
+            "reps": "15",
+            "category": "strength"
+          },
+          {
+            "id": "week1-4",
+            "name": "Single-leg Glute Bridges",
+            "description": "Lie on back, knees bent, feet flat. Lift one leg, extend it straight. Push through heel of planted foot, lift hips. Squeeze glutes at top, lower slowly.",
+            "sets": 3,
+            "reps": "10 each leg",
+            "category": "strength"
+          }
+        ]
+      },
+      {
+        "weekNumber": 2,
+        "exercises": [
+          {
+            "id": "week2-1",
+            "name": "Seated Calf Raises",
+            "description": "Sit in chair with feet flat on floor. Place weight (book/water bottle) on thighs. Lift heels off ground, squeeze calves. Hold 2 seconds, lower slowly.",
+            "sets": 3,
+            "reps": "15-20",
+            "category": "strength"
+          },
+          {
+            "id": "week2-2",
+            "name": "Towel Scrunches",
+            "description": "Sit with towel laid flat in front of feet. Use toes to scrunch/grab towel toward you. Release and repeat.",
+            "sets": 3,
+            "reps": "15 each foot",
+            "category": "strength"
+          },
+          {
+            "id": "week2-3",
+            "name": "Resistance Band Dorsiflexion",
+            "description": "Sit with legs extended, resistance band around feet. Hold band ends in hands. Pull toes back toward shins against resistance. Hold 2 seconds, return slowly.",
+            "sets": 3,
+            "reps": "15",
+            "category": "strength"
+          },
+          {
+            "id": "week2-4",
+            "name": "Single-leg Glute Bridges",
+            "description": "Lie on back, knees bent, feet flat. Lift one leg, extend it straight. Push through heel of planted foot, lift hips. Squeeze glutes at top, lower slowly.",
+            "sets": 3,
+            "reps": "10 each leg",
+            "category": "strength"
+          }
+        ]
+      },
+      {
+        "weekNumber": 3,
+        "exercises": [
+          {
+            "id": "week3-1",
+            "name": "Standing Calf Raises",
+            "description": "Stand with feet hip-width apart. Hold wall/chair for balance if needed. Rise onto balls of feet, hold 2 seconds. Lower with control.",
+            "sets": 3,
+            "reps": "15-20",
+            "category": "strength"
+          },
+          {
+            "id": "week3-2",
+            "name": "Single-leg Calf Raises (Assisted)",
+            "description": "Stand on one foot, other foot lifted behind you. Hold wall/railing for light support. Rise onto ball of standing foot. Use minimal assistance from arms.",
+            "sets": 3,
+            "reps": "5-8 each leg",
+            "category": "strength"
+          },
+          {
+            "id": "week3-3",
+            "name": "Heel-to-Toe Walking",
+            "description": "Walk in straight line. Place heel of front foot directly in front of toes of back foot. Keep arms out for balance. Take 20 steps forward, 20 backward.",
+            "sets": 1,
+            "reps": "20 steps forward and backward",
+            "category": "strength"
+          },
+          {
+            "id": "week3-4",
+            "name": "Wall Sits",
+            "description": "Stand with back against wall. Slide down until thighs parallel to floor. Keep knees over ankles, not forward of toes. Hold position, breathe normally.",
+            "duration": 30,
+            "sets": 3,
+            "reps": "30-45 seconds",
+            "category": "strength"
+          }
+        ]
+      },
+      {
+        "weekNumber": 4,
+        "exercises": [
+          {
+            "id": "week4-1",
+            "name": "Standing Calf Raises",
+            "description": "Stand with feet hip-width apart. Hold wall/chair for balance if needed. Rise onto balls of feet, hold 2 seconds. Lower with control.",
+            "sets": 3,
+            "reps": "15-20",
+            "category": "strength"
+          },
+          {
+            "id": "week4-2",
+            "name": "Single-leg Calf Raises (Assisted)",
+            "description": "Stand on one foot, other foot lifted behind you. Hold wall/railing for light support. Rise onto ball of standing foot. Use minimal assistance from arms.",
+            "sets": 3,
+            "reps": "5-8 each leg",
+            "category": "strength"
+          },
+          {
+            "id": "week4-3",
+            "name": "Heel-to-Toe Walking",
+            "description": "Walk in straight line. Place heel of front foot directly in front of toes of back foot. Keep arms out for balance. Take 20 steps forward, 20 backward.",
+            "sets": 1,
+            "reps": "20 steps forward and backward",
+            "category": "strength"
+          },
+          {
+            "id": "week4-4",
+            "name": "Wall Sits",
+            "description": "Stand with back against wall. Slide down until thighs parallel to floor. Keep knees over ankles, not forward of toes. Hold position, breathe normally.",
+            "duration": 45,
+            "sets": 3,
+            "reps": "30-45 seconds",
+            "category": "strength"
+          }
+        ]
+      },
+      {
+        "weekNumber": 5,
+        "exercises": [
+          {
+            "id": "week5-1",
+            "name": "Single-leg Calf Raises (Unassisted)",
+            "description": "Stand on one foot without support. Rise onto ball of foot, hold 2 seconds. Lower with complete control. Focus on balance and form over speed.",
+            "sets": 3,
+            "reps": "8-12 each leg",
+            "category": "strength"
+          },
+          {
+            "id": "week5-2",
+            "name": "Jump Rope or Calf Raise Jumps",
+            "description": "If no rope: simulate jumping motion. Stay on balls of feet, light bouncing. Keep jumps small and controlled. Land softly each time.",
+            "duration": 30,
+            "sets": 3,
+            "reps": "30 seconds",
+            "category": "strength"
+          },
+          {
+            "id": "week5-3",
+            "name": "Single-leg Deadlifts",
+            "description": "Stand on one leg, slight bend in knee. Hinge at hips, reach toward floor with hands. Keep back straight, lift other leg behind you. Return to standing, squeeze glutes.",
+            "sets": 3,
+            "reps": "8-10 each leg",
+            "category": "strength"
+          },
+          {
+            "id": "week5-4",
+            "name": "Farmer's Walks",
+            "description": "Hold weights (dumbbells/books) at sides. Walk with good posture, normal stride. Keep shoulders back, core engaged. Focus on maintaining balance.",
+            "sets": 3,
+            "reps": "30-40 steps",
+            "category": "strength"
+          }
+        ]
+      }
+    ]
+  },
+  "progressiveStandingWalking": {
+    "name": "Progressive Standing/Walking Protocol",
+    "description": "Start with your current tolerance and add 2-3 minutes weekly.",
+    "weeks": [
+      {
+        "weekNumber": 1,
+        "standingTime": 5,
+        "walkingDistance": 0.25,
+        "description": "Stand 5 minutes, walk 0.25 miles"
+      },
+      {
+        "weekNumber": 2,
+        "standingTime": 8,
+        "walkingDistance": 0.4,
+        "description": "Stand 8 minutes, walk 0.4 miles"
+      },
+      {
+        "weekNumber": 3,
+        "standingTime": 12,
+        "walkingDistance": 0.6,
+        "description": "Stand 12 minutes, walk 0.6 miles"
+      },
+      {
+        "weekNumber": 4,
+        "standingTime": 15,
+        "walkingDistance": 0.8,
+        "description": "Stand 15 minutes, walk 0.8 miles"
+      },
+      {
+        "weekNumber": 5,
+        "standingTime": 20,
+        "walkingDistance": 1.0,
+        "description": "Stand 20 minutes, walk 1.0 mile"
+      }
+    ]
+  },
+  "tips": [
+    "Start slowly: Begin with shorter holds and fewer reps",
+    "Quality over quantity: Perfect form prevents injury",
+    "Listen to your body: Some discomfort is normal, sharp pain is not",
+    "Progress gradually: Don't rush to advanced exercises",
+    "Stay consistent: Daily routine is more important than intensity",
+    "Warm up: Always do ankle circles before strengthening exercises",
+    "Cool down: Always stretch after strengthening exercises"
+  ],
+  "modifications": [
+    "Use wall or chair for balance on all standing exercises",
+    "Reduce repetitions by half if exercises feel too challenging",
+    "Hold stretches for 15 seconds instead of 30 if very tight",
+    "Take rest days if experiencing unusual soreness",
+    "Focus on form over speed or repetitions"
+  ]
+}

@@ -1,57 +1,106 @@
-# StepStrong
+# Step Strong
 
-StepStrong is a mobile-first Progressive Web App (PWA) that guides users through a 5-week foot and calf strengthening program. The app helps users reduce foot soreness by providing structured daily routines and strengthening exercises, with features like countdown timers, progress tracking, and local storage for offline use. Built with React, Next.js, and Tailwind CSS, it is deployed on Vercel for fast, scalable performance.
+Step Strong is a mobile-first Progressive Web App (PWA) that guides users through a 5-week foot and calf strengthening program. The app helps users reduce foot soreness by providing structured daily routines and strengthening exercises, with features like countdown timers, progress tracking, and local storage for offline use. Built with Next.js, React, and Tailwind CSS, it's designed for optimal performance and user experience.
 
 ## Features
-- **Weekly Exercise Display**: View exercises grouped by week, split into daily routines and strengthening programs (3x per week).
-- **Guided Routines**: Follow exercise sequences with countdown timers, optional sound alerts, and customizable durations.
-- **Progress Tracking**: Mark exercises as completed and track progress using local storage.
-- **Strengthening Limit**: Receive warnings if attempting the strengthening program more than 3 times per week.
-- **Week Progression**: Complete a week's program to unlock the next week's exercises.
-- **Local Storage & Notifications**: Save progress locally and set daily reminders for routines (browser notifications).
-- **PWA**: Installable on mobile devices with offline support via service workers.
+
+- **5-Week Program**: Structured exercises spread across 5 weeks with progressive intensity
+- **Daily Routines**: Morning and evening exercises to improve flexibility and mobility
+- **Guided Workouts**: Step-by-step exercise instructions with visual guidance
+- **Progress Tracking**: Monitor your completion rate and streak
+- **Responsive Design**: Works on mobile, tablet, and desktop devices
+- **Offline Support**: Continue your program without an internet connection
+- **No Login Required**: All data is stored locally in your browser
 
 ## Tech Stack
-- **Language**: JavaScript/TypeScript
-- **Framework**: React + Next.js (Static Site Generation for performance)
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Build Tool**: Next.js with `next-pwa` for PWA support
-- **Deployment**: Vercel (free tier)
+- **Animation**: Framer Motion
+- **Icons**: Heroicons
+- **State Management**: React Context API
+- **Form Handling**: React Hook Form
+- **Deployment**: Vercel (recommended)
 
-## Prerequisites
-- Node.js (v16 or higher)
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or later
 - npm or yarn
-- Git
 
-## Setup Instructions
+### Installation
 
-1. **Clone the Repository**
+1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/stepstrong.git
-   cd stepstrong
+   git clone https://github.com/your-username/step-strong.git
+   cd step-strong
    ```
 
-2. **Install Dependencies**
-   Using npm:
+2. Install dependencies:
    ```bash
    npm install
-   ```
-   Or using yarn:
-   ```bash
+   # or
    yarn install
    ```
 
-3. **Run the Development Server**
+3. Run the development server:
    ```bash
    npm run dev
-   ```
-   Or:
-   ```bash
+   # or
    yarn dev
    ```
-   Open `http://localhost:3000` in your browser to view the app.
 
-4. **Build for Production**
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+### Building for Production
+
+To create an optimized production build:
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+Then start the production server:
+
+```bash
+npm start
+# or
+yarn start
+```
+
+## Project Structure
+
+```
+src/
+├── app/                    # App router pages
+│   ├── daily-routine/      # Daily exercise routines
+│   ├── progress/           # User progress tracking
+│   └── week/               # Weekly strengthening programs
+├── components/             # Reusable UI components
+├── data/                   # Exercise data and content
+└── hooks/                  # Custom React hooks
+```
+
+## Data Model
+
+The application uses a JSON-based data model for exercises, stored in `src/data/exercises.json`. This file contains:
+
+- Daily routines (morning and evening)
+- 5-week strengthening program
+- Exercise instructions and metadata
+- Progressive standing/walking protocol
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
    ```bash
    npm run build
    ```
