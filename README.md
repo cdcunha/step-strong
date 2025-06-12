@@ -117,4 +117,4 @@ This project is licensed under the MIT License.
 - Enhance accessibility with advanced ARIA support.
 
 ## Contact
-For questions or feedback, open an issue on GitHub or reach out to [your-email@example.com].
+For questions or feedback, open an issue on GitHub or reach out to [cdcunha@gmail.com].
