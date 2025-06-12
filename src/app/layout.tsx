@@ -5,6 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Providers } from '@/components/providers';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { SplashScreen } from '@/components/splash-screen';
+import { VersionDisplay } from '@/components/version-display';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -66,7 +67,7 @@ export default function RootLayout({
             <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-8 transition-colors duration-200">
               <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-                  &copy; {new Date().getFullYear()} Step Strong. All rights reserved.
+                  &copy; {new Date().getFullYear()} Step Strong <VersionDisplay />. All rights reserved.
                 </p>
               </div>
             </footer>
