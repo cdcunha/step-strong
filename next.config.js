@@ -31,10 +31,16 @@ const nextConfig = {
   // Optional: Add base path if using a custom domain
   // basePath: '/your-base-path',
   
-  // Configure the build output directory (Vercel will handle this automatically)
+  // Configure the build output directory
   distDir: '.next',
   
-  // Add any other necessary configurations here
+  // Explicitly set the output directory for static export
+  // This will create an 'out' directory with the static files
+  // Vercel will serve these files directly
+  output: 'export',
+  
+  // Ensure trailing slash for static exports
+  trailingSlash: true
 };
 
 module.exports = nextConfig;

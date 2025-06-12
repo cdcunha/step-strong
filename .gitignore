@@ -290,7 +290,8 @@ FakesAssemblies/
 .ntvs_analysis.dat
 # Next.js
 .next/
-out/
+# We need the out directory for static exports
+# out/
 
 # Production
 build
