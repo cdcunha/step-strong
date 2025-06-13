@@ -56,7 +56,7 @@ export default function HomeContent() {
                     </>
                   ) : currentWeek === week ? (
                     <>
-                      <ArrowPathIcon className="animate-spin -ml-1 mr-2 h-5 w-5" />
+                      <ArrowPathIcon className="-ml-1 mr-2 h-5 w-5" />
                       Continue Week {week}
                     </>
                   ) : (
@@ -74,11 +74,11 @@ export default function HomeContent() {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <Link
           href="/daily-routine"
-          className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
+          className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
         >
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-lg font-medium text-gray-900">Daily Routine</h3>
-            <p className="mt-2 text-sm text-gray-500">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Daily Routine</h3>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               Perform these exercises daily to improve flexibility and maintain mobility.
             </p>
           </div>
@@ -86,13 +86,13 @@ export default function HomeContent() {
       
         <Link
           href={`/week/${currentWeek}`}
-          className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
+          className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
         >
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-lg font-medium text-gray-900">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
               Week {currentWeek} Strengthening
             </h3>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               Your current week's strengthening program (3x per week).
             </p>
           </div>
@@ -100,11 +100,11 @@ export default function HomeContent() {
       
         <Link
           href="/progress"
-          className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
+          className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
         >
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-lg font-medium text-gray-900">Your Progress</h3>
-            <p className="mt-2 text-sm text-gray-500">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Your Progress</h3>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               Track your progress and see how far you've come.
             </p>
           </div>

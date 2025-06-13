@@ -46,6 +46,29 @@ function AppProviders({ children }: ProvidersProps) {
         ? prev.filter((id) => id !== exerciseId)
         : [...prev, exerciseId]
     );
+    // Track by date for progress streaks
+    if (typeof window !== 'undefined') {
+      const today = new Date().toISOString().split('T')[0];
+      let byDateRaw = localStorage.getItem('completedExercisesByDate');
+      let byDate: Record<string, string[]> = {};
+      if (byDateRaw) {
+        try {
+          byDate = JSON.parse(byDateRaw);
+        } catch {}
+      }
+      const ids = new Set(byDate[today] || []);
+      if (ids.has(exerciseId)) {
+        ids.delete(exerciseId);
+      } else {
+        ids.add(exerciseId);
+      }
+      byDate[today] = Array.from(ids);
+      // Clean up empty arrays
+      if (byDate[today].length === 0) {
+        delete byDate[today];
+      }
+      localStorage.setItem('completedExercisesByDate', JSON.stringify(byDate));
+    }
   };
 
   const markWeekComplete = (weekNumber: number) => {
@@ -67,18 +90,29 @@ function AppProviders({ children }: ProvidersProps) {
   };
 
   const hasReachedWeeklyLimit = (week: number) => {
-    const currentDate = new Date();
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay()); // Start of current week (Sunday)
-    
-    return (
-      strengtheningSessions.filter(
-        (session) => 
-          session.week === week && 
-          new Date(session.date) >= startOfWeek
-      ).length >= 3
-    );
-  };
+  // If there are no sessions, the limit can't be reached
+  if (strengtheningSessions.length === 0) {
+    return false;
+  }
+
+  const today = new Date();
+  // Set to start of today for accurate comparison
+  const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const sevenDaysAgo = new Date(startOfToday);
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+  // Filter sessions for the given week and last 7 days
+  const recentSessions = strengtheningSessions.filter(session => {
+    if (session.week !== week) return false;
+    const sessionDate = new Date(session.date);
+    const sessionDay = new Date(sessionDate.getFullYear(), sessionDate.getMonth(), sessionDate.getDate());
+    return sessionDay >= sevenDaysAgo && sessionDay <= startOfToday;
+  });
+
+  // Count unique days
+  const uniqueDays = new Set(recentSessions.map(session => session.date)).size;
+  return uniqueDays >= 3;
+};
 
   const resetProgress = () => {
     setCurrentWeek(1);
