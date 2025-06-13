@@ -44,7 +44,7 @@ export function ExerciseCard({
   }, []);
 
   useEffect(() => {
-    if (beepSound && isActive && timeLeft <= 4 && timeLeft > 0) {
+    if (beepSound && isActive && timeLeft <= 6 && timeLeft > 0) {
       beepSound.currentTime = 0; // Reset audio to start
       beepSound.play().catch(e => console.error('Error playing sound:', e));
     }
@@ -125,26 +125,28 @@ export function ExerciseCard({
               {exercise.duration && (
                 <div className="flex items-center">
                   <span className="mr-2 font-medium text-gray-900 dark:text-gray-300">Duration:</span>
-                  <span className="font-mono font-medium text-gray-900 dark:text-gray-300">
+                  <span className="font-mono font-extrabold text-3xl sm:text-4xl text-gray-900 dark:text-gray-100 tracking-widest px-2">
                     {formatTime(timeLeft)}
                   </span>
                   <button
                     onClick={toggleTimer}
-                    className="ml-2 p-1 text-blue-600 hover:text-blue-800"
+                    className="ml-2 p-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                    style={{ minWidth: 48, minHeight: 48 }}
                     aria-label={isActive ? 'Pause' : 'Start'}
                   >
                     {isActive ? (
-                      <PauseIcon className="h-5 w-5" />
+                      <PauseIcon className="h-7 w-7" />
                     ) : (
-                      <PlayIcon className="h-5 w-5" />
+                      <PlayIcon className="h-7 w-7" />
                     )}
                   </button>
                   <button
                     onClick={resetTimer}
-                    className="p-1 text-gray-500 hover:text-gray-700"
+                    className="ml-2 p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 shadow-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                    style={{ minWidth: 48, minHeight: 48 }}
                     aria-label="Reset"
                   >
-                    <ArrowPathIcon className="h-4 w-4" />
+                    <ArrowPathIcon className="h-6 w-6" />
                   </button>
                 </div>
               )}

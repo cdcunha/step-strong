@@ -6,6 +6,7 @@ import { Providers } from '@/components/providers';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { SplashScreen } from '@/components/splash-screen';
 import { VersionDisplay } from '@/components/version-display';
+import { PWAInstallPrompt } from '@/components/pwa-install-prompt';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,6 +40,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} h-full relative transition-colors duration-200`}>
         <SplashScreen />
+        <PWAInstallPrompt />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -53,7 +55,7 @@ export default function RootLayout({
           }}
         />
         <Providers>
-          <div className="min-h-full flex flex-col">
+          <div className="min-h-full flex flex-col bg-white dark:bg-gray-800 shadow-sm relative z-10 transition-colors duration-200">
             <header className="bg-white dark:bg-gray-800 shadow-sm relative z-10 transition-colors duration-200">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
                 <div className="flex items-center">
