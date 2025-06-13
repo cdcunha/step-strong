@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { ArrowLeftIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { ExerciseCard } from '@/components/exercise-card';
@@ -40,6 +41,7 @@ export function WeekContent() {
     isWeekComplete,
     addStrengtheningSession,
     hasReachedWeeklyLimit,
+    strengtheningSessions,
   } = useAppContext();
 
   if (week < 1 || week > 5) {
@@ -104,13 +106,34 @@ export function WeekContent() {
     );
   }
 
+  // Calculate sessions for this week
+  const weekSessions = strengtheningSessions.filter((s: { week: number }) => s.week === week);
+  const sessionCount = weekSessions.length;
+  const nextSessionNumber = sessionCount + 1;
+  const maxSessions = 3;
+  const weekIsFull = sessionCount >= maxSessions;
+
+  // Track if a day/session is in progress
+  const [dayInProgress, setDayInProgress] = useState(false);
+
+  // Reset dayInProgress if week changes or sessions are reset
+  useEffect(() => {
+    setDayInProgress(false);
+  }, [week, sessionCount]);
+
+  // Start Day: only sets in-progress, does not add session yet
   const handleStartSession = () => {
-    addStrengtheningSession(week);
+    setDayInProgress(true);
   };
 
-  const handleMarkWeekComplete = () => {
-    markWeekComplete(week);
+  // Finish Day: adds session, then disables itself and enables Start Day for next session
+  const handleFinishDay = () => {
+    if (!weekIsFull && dayInProgress) {
+      addStrengtheningSession(week);
+      setDayInProgress(false);
+    }
   };
+
 
   // Get the week title and description from the exercises data
   const weekTitle = `Week ${week} Strengthening Program`;
@@ -177,37 +200,32 @@ export function WeekContent() {
           <button
             type="button"
             onClick={handleStartSession}
-            disabled={hasReachedWeeklyLimit(week)}
-            className={`w-full flex justify-center px-2 py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white
+            disabled={weekIsFull || dayInProgress}
+            className={`w-full flex justify-center px-2 py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+              weekIsFull || dayInProgress
                 ? 'bg-gray-400 cursor-not-allowed'
                 : 'bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600'
             }`}
           >
-            Start Session
+            {weekIsFull
+              ? 'Weekly Limit Reached'
+              : `Start Day ${nextSessionNumber} of ${maxSessions}`}
           </button>
         </div>
         <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
           <button
-            onClick={() => markWeekComplete(week)}
-            disabled={isWeekComplete(week) || hasReachedWeeklyLimit(week)}
+            type="button"
+            onClick={handleFinishDay}
+            disabled={weekIsFull || !dayInProgress}
             className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-              isWeekComplete(week)
-                ? 'bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600'
-                : hasReachedWeeklyLimit(week)
+              weekIsFull || !dayInProgress
                 ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed'
                 : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600'
             } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors`}
           >
-            {isWeekComplete(week) ? (
-              <>
-                <CheckCircleIcon className="mr-2 h-5 w-5" />
-                Week {week} Completed
-              </>
-            ) : hasReachedWeeklyLimit(week) ? (
-              'Weekly Limit Reached'
-            ) : (
-              `Complete Week ${week}`
-            )}
+            {weekIsFull
+              ? 'Weekly Limit Reached'
+              : `Finish Day ${nextSessionNumber} of ${maxSessions}`}
           </button>
         </div>
       </div>
