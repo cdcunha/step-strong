@@ -51,7 +51,23 @@ export default function ProgressPage() {
   
   const completedStrengtheningSessions = strengtheningSessions.length;
   const sessionDates = [...new Set(strengtheningSessions.map(s => s.date))];
-  const currentStreak = calculateStreak(sessionDates);
+  // Patch: Calculate unique days where any exercise was completed
+  const getCompletedDays = () => {
+    // Try to read from localStorage directly, since completedExercises is only IDs
+    // Assume you use a localStorage key like 'completedExercisesByDate' in your app
+    if (typeof window !== 'undefined') {
+      try {
+        const byDateRaw = localStorage.getItem('completedExercisesByDate');
+        if (byDateRaw) {
+          const byDate = JSON.parse(byDateRaw); // { [date]: [ids] }
+          return Object.keys(byDate).length;
+        }
+      } catch (e) {}
+    }
+    // fallback: 0
+    return 0;
+  };
+  const daysCompleted = getCompletedDays();
   
   const totalPossibleSessions = 3 * 5; // 3 sessions per week for 5 weeks
   const completionPercentage = Math.round(
@@ -93,7 +109,7 @@ export default function ProgressPage() {
                   </dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900 dark:text-white">
-                      {currentStreak}
+                      {daysCompleted}
                     </div>
                     <div className="ml-2 flex items-baseline text-sm font-semibold text-green-600 dark:text-green-400">
                       days
