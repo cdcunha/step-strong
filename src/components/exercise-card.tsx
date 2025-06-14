@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CheckCircleIcon, CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
 import { PlayIcon, PauseIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 
@@ -36,19 +36,67 @@ export function ExerciseCard({
   const [timeLeft, setTimeLeft] = useState(exercise.duration || 0);
   const [isActive, setIsActive] = useState(autoStart);
   const [showDescription, setShowDescription] = useState(false);
-  const [beepSound, setBeepSound] = useState<HTMLAudioElement | null>(null);
+  // Use refs for audio to avoid unnecessary re-renders
+  const beepRef = useRef<HTMLAudioElement | null>(null);
+  const finalBeepRef = useRef<HTMLAudioElement | null>(null);
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
 
+  // Track if final bell is playing
+  const isPlayingFinalBeep = useRef(false);
+
+  // Preload audio only once
   useEffect(() => {
-    // Load the beep sound
-    setBeepSound(new Audio('/beep-5s.wav'));
+    beepRef.current = new Audio('/short-beep.mp3');
+    beepRef.current.preload = 'auto';
+    // For the long beep at 0s
+    finalBeepRef.current = new Audio('/final-bell.mp3');
+    finalBeepRef.current.preload = 'auto';
+    // Listen for final bell end to reset flag
+    finalBeepRef.current.addEventListener('ended', () => {
+      isPlayingFinalBeep.current = false;
+      finalBeepRef.current!.currentTime = 0;
+    });
+    return () => {
+      finalBeepRef.current?.removeEventListener('ended', () => {
+        isPlayingFinalBeep.current = false;
+        finalBeepRef.current!.currentTime = 0;
+      });
+    };
   }, []);
 
-  useEffect(() => {
-    if (beepSound && isActive && timeLeft <= 6 && timeLeft > 0) {
-      beepSound.currentTime = 0; // Reset audio to start
-      beepSound.play().catch(e => console.error('Error playing sound:', e));
+  // Unlock audio on first user interaction (iOS/Safari fix)
+  const unlockAudio = () => {
+    if (!audioUnlocked) {
+      beepRef.current?.play().then(() => {
+        beepRef.current?.pause();
+        beepRef.current!.currentTime = 0;
+      }).catch(() => {});
+      finalBeepRef.current?.play().then(() => {
+        finalBeepRef.current?.pause();
+        finalBeepRef.current!.currentTime = 0;
+      }).catch(() => {});
+      setAudioUnlocked(true);
     }
-  }, [timeLeft, isActive, beepSound]);
+  };
+
+  // Play beep at 5,4,3,2,1; long beep at 0
+  useEffect(() => {
+    if (!isActive) return;
+    if (!audioUnlocked) return;
+    if (timeLeft <= 5 && timeLeft > 0) {
+      beepRef.current && beepRef.current.currentTime !== undefined && (beepRef.current.currentTime = 0);
+      beepRef.current?.play().catch(e => console.error('Error playing beep:', e));
+    } else if (timeLeft === 0) {
+      if (finalBeepRef.current) {
+        finalBeepRef.current.currentTime = 0;
+        isPlayingFinalBeep.current = true;
+        finalBeepRef.current.play().catch(e => {
+          isPlayingFinalBeep.current = false;
+          console.error('Error playing final beep:', e);
+        });
+      }
+    }
+  }, [timeLeft, isActive, audioUnlocked]);
 
   useEffect(() => {
     if (!exercise.duration) return;
@@ -71,14 +119,18 @@ export function ExerciseCard({
     return () => {
       if (interval) clearInterval(interval);
       // Clean up audio
-      if (beepSound) {
-        beepSound.pause();
-        beepSound.currentTime = 0;
+      beepRef.current?.pause();
+      if (beepRef.current) beepRef.current.currentTime = 0;
+      // Only pause/reset final bell if not currently playing
+      if (!isPlayingFinalBeep.current) {
+        finalBeepRef.current?.pause();
+        if (finalBeepRef.current) finalBeepRef.current.currentTime = 0;
       }
     };
-  }, [isActive, timeLeft, onComplete, beepSound]);
+  }, [isActive, timeLeft, onComplete]);
 
   const toggleTimer = () => {
+    unlockAudio();
     if (timeLeft === 0) {
       setTimeLeft(exercise.duration || 0);
     }
@@ -86,6 +138,7 @@ export function ExerciseCard({
   };
 
   const resetTimer = () => {
+    unlockAudio();
     setIsActive(false);
     setTimeLeft(exercise.duration || 0);
   };

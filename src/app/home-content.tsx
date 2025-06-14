@@ -73,6 +73,15 @@ export default function HomeContent() {
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <Link
+          href="/important-info"
+          className="bg-yellow-50 dark:bg-yellow-900 overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200 border-l-4 border-yellow-400"
+        >
+          <div className="px-4 py-5 sm:p-6">
+            <h3 className="text-lg font-medium text-yellow-800 dark:text-yellow-100">Important Program Info</h3>
+            <p className="mt-2 text-sm text-yellow-700 dark:text-yellow-200">Form tips, relief strategies, and more essential guidance.</p>
+          </div>
+        </Link>
+        <Link
           href="/daily-routine"
           className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
         >

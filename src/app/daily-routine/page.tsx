@@ -41,10 +41,9 @@ export default function DailyRoutinePage() {
       <div className="mb-8">
         <Link
           href="/"
-          className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
+          className="inline-block mb-4 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
         >
-          <ArrowLeftIcon className="mr-1 h-4 w-4" />
-          Back to Home
+          ← Back to Home
         </Link>
         <h1 className="mt-4 text-3xl font-extrabold text-gray-900">
           Daily Routine
