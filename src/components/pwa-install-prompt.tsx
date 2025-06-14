@@ -7,8 +7,26 @@ import React, { useEffect, useState } from 'react';
 export const PWAInstallPrompt: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
+    // Detect if app is already installed (standalone mode)
+    const checkStandalone = () => {
+      const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
+      setIsStandalone(isInStandalone);
+    };
+    checkStandalone();
+    window.addEventListener('resize', checkStandalone);
+    return () => {
+      window.removeEventListener('resize', checkStandalone);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isStandalone) {
+      setShowPrompt(false);
+      return;
+    }
     const handler = (e: any) => {
       e.preventDefault();
       setDeferredPrompt(e);
@@ -18,7 +36,7 @@ export const PWAInstallPrompt: React.FC = () => {
     return () => {
       window.removeEventListener('beforeinstallprompt', handler);
     };
-  }, []);
+  }, [isStandalone]);
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
@@ -29,7 +47,7 @@ export const PWAInstallPrompt: React.FC = () => {
     // Optionally, you can log the outcome or show a message
   };
 
-  if (!showPrompt) return null;
+  if (!showPrompt || isStandalone) return null;
 
   return (
     <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 shadow-lg rounded-lg px-6 py-3 flex items-center gap-4 z-50 border border-gray-200 dark:border-gray-700">
