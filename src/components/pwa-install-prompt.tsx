@@ -8,6 +8,15 @@ export const PWAInstallPrompt: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [showIOSGuide, setShowIOSGuide] = useState(false);
+
+  // Utility to detect iOS Safari
+  const isIOSSafari = () => {
+    const ua = window.navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+    return isIOS && isSafari;
+  };
 
   useEffect(() => {
     // Detect if app is already installed (standalone mode)
@@ -24,6 +33,12 @@ export const PWAInstallPrompt: React.FC = () => {
 
   useEffect(() => {
     if (isStandalone) {
+      setShowPrompt(false);
+      setShowIOSGuide(false);
+      return;
+    }
+    if (isIOSSafari()) {
+      setShowIOSGuide(true);
       setShowPrompt(false);
       return;
     }
@@ -47,7 +62,19 @@ export const PWAInstallPrompt: React.FC = () => {
     // Optionally, you can log the outcome or show a message
   };
 
-  if (!showPrompt || isStandalone) return null;
+  if (isStandalone) return null;
+
+  if (showIOSGuide) {
+    return (
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 shadow-lg rounded-lg px-6 py-3 flex items-center gap-4 z-50 border border-gray-200 dark:border-gray-700">
+        <span className="text-gray-900 dark:text-gray-100 font-medium">
+          To install this app on your iPhone or iPad, tap the <span role="img" aria-label="Share">&#x1f5d2;</span> Share button and select <b>Add to Home Screen</b> from the menu.
+        </span>
+      </div>
+    );
+  }
+
+  if (!showPrompt) return null;
 
   return (
     <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 shadow-lg rounded-lg px-6 py-3 flex items-center gap-4 z-50 border border-gray-200 dark:border-gray-700">

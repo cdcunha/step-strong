@@ -33,6 +33,12 @@ export function ExerciseCard({
   autoStart = false,
   onComplete,
 }: ExerciseCardProps) {
+  // Set tracking
+  const totalSets = exercise.sets ?? 1;
+  const [currentSet, setCurrentSet] = useState(1);
+  // Adjustable timer for Tennis Ball Roll or rep range
+  const isTennisBallRoll = exercise.name?.toLowerCase().includes('tennis ball roll') || (exercise.reps && exercise.reps.includes('1-2'));
+  const [customDuration, setCustomDuration] = useState<number>(exercise.duration || 60);
   const [timeLeft, setTimeLeft] = useState(exercise.duration || 0);
   const [isActive, setIsActive] = useState(autoStart);
   const [showDescription, setShowDescription] = useState(false);
@@ -41,13 +47,19 @@ export function ExerciseCard({
   const finalBeepRef = useRef<HTMLAudioElement | null>(null);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
 
-  // Track if final bell is playing
+  // Track if short or final beep is playing
+  const isPlayingShortBeep = useRef(false);
   const isPlayingFinalBeep = useRef(false);
 
   // Preload audio only once
   useEffect(() => {
     beepRef.current = new Audio('/short-beep.mp3');
     beepRef.current.preload = 'auto';
+    // Listen for short beep end to reset flag
+    beepRef.current.addEventListener('ended', () => {
+      isPlayingShortBeep.current = false;
+      beepRef.current!.currentTime = 0;
+    });
     // For the long beep at 0s
     finalBeepRef.current = new Audio('/final-bell.mp3');
     finalBeepRef.current.preload = 'auto';
@@ -57,6 +69,10 @@ export function ExerciseCard({
       finalBeepRef.current!.currentTime = 0;
     });
     return () => {
+      beepRef.current?.removeEventListener('ended', () => {
+        isPlayingShortBeep.current = false;
+        beepRef.current!.currentTime = 0;
+      });
       finalBeepRef.current?.removeEventListener('ended', () => {
         isPlayingFinalBeep.current = false;
         finalBeepRef.current!.currentTime = 0;
@@ -84,8 +100,14 @@ export function ExerciseCard({
     if (!isActive) return;
     if (!audioUnlocked) return;
     if (timeLeft <= 5 && timeLeft > 0) {
-      beepRef.current && beepRef.current.currentTime !== undefined && (beepRef.current.currentTime = 0);
-      beepRef.current?.play().catch(e => console.error('Error playing beep:', e));
+      if (beepRef.current) {
+        beepRef.current.currentTime = 0;
+        isPlayingShortBeep.current = true;
+        beepRef.current.play().catch(e => {
+          isPlayingShortBeep.current = false;
+          console.error('Error playing beep:', e);
+        });
+      }
     } else if (timeLeft === 0) {
       if (finalBeepRef.current) {
         finalBeepRef.current.currentTime = 0;
@@ -98,11 +120,14 @@ export function ExerciseCard({
     }
   }, [timeLeft, isActive, audioUnlocked]);
 
+  // If Tennis Ball Roll or rep range, use custom duration
   useEffect(() => {
-    if (!exercise.duration) return;
-    
-    setTimeLeft(exercise.duration);
-  }, [exercise.duration]);
+    if (isTennisBallRoll) {
+      setTimeLeft(customDuration);
+    } else if (exercise.duration) {
+      setTimeLeft(exercise.duration);
+    }
+  }, [exercise.duration, customDuration, isTennisBallRoll]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -113,26 +138,38 @@ export function ExerciseCard({
       }, 1000);
     } else if (isActive && timeLeft === 0) {
       setIsActive(false);
-      if (onComplete) onComplete();
+      // If multi-set, advance set or finish
+      if (totalSets > 1 && currentSet < totalSets) {
+        setTimeout(() => {
+          setCurrentSet((set) => set + 1);
+          setTimeLeft(isTennisBallRoll ? customDuration : (exercise.duration || 0));
+          setIsActive(false);
+        }, 1000); // 1s pause before next set
+      } else {
+        if (onComplete) onComplete();
+      }
     }
 
     return () => {
       if (interval) clearInterval(interval);
       // Clean up audio
-      beepRef.current?.pause();
-      if (beepRef.current) beepRef.current.currentTime = 0;
+      // Only pause/reset short beep if not currently playing
+      if (!isPlayingShortBeep.current) {
+        beepRef.current?.pause();
+        if (beepRef.current) beepRef.current.currentTime = 0;
+      }
       // Only pause/reset final bell if not currently playing
       if (!isPlayingFinalBeep.current) {
         finalBeepRef.current?.pause();
         if (finalBeepRef.current) finalBeepRef.current.currentTime = 0;
       }
     };
-  }, [isActive, timeLeft, onComplete]);
+  }, [isActive, timeLeft, onComplete, totalSets, currentSet, customDuration, isTennisBallRoll, exercise.duration]);
 
   const toggleTimer = () => {
     unlockAudio();
     if (timeLeft === 0) {
-      setTimeLeft(exercise.duration || 0);
+      setTimeLeft(isTennisBallRoll ? customDuration : (exercise.duration || 0));
     }
     setIsActive(!isActive);
   };
@@ -140,7 +177,24 @@ export function ExerciseCard({
   const resetTimer = () => {
     unlockAudio();
     setIsActive(false);
-    setTimeLeft(exercise.duration || 0);
+    setTimeLeft(isTennisBallRoll ? customDuration : (exercise.duration || 0));
+  };
+
+  // For multi-set exercises: manually go to next set
+  const nextSet = () => {
+    if (currentSet < totalSets) {
+      setCurrentSet(currentSet + 1);
+      setTimeLeft(isTennisBallRoll ? customDuration : (exercise.duration || 0));
+      setIsActive(false);
+    }
+  };
+  // For multi-set exercises: manually go to previous set
+  const prevSet = () => {
+    if (currentSet > 1) {
+      setCurrentSet(currentSet - 1);
+      setTimeLeft(isTennisBallRoll ? customDuration : (exercise.duration || 0));
+      setIsActive(false);
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -168,16 +222,46 @@ export function ExerciseCard({
               )}
             </h3>
             <div className="mt-1 text-sm text-gray-500 dark:text-gray-300 space-y-1">
-              {exercise.sets && (
-                <div className="flex items-center">
-                  <span className="font-medium text-gray-900 dark:text-gray-300">Sets:</span>
-                  <span className="ml-2">{exercise.sets}</span>
+              {totalSets > 1 && (
+                <div className="flex items-center space-x-2">
+                  <span className="font-medium text-gray-900 dark:text-gray-300">Set:</span>
+                  <span className="font-bold">{currentSet}</span>
+                  <span className="text-gray-400">/ {totalSets}</span>
+                  <button
+                    onClick={prevSet}
+                    disabled={currentSet === 1}
+                    className="ml-2 px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700 text-xs text-gray-700 dark:text-gray-200 disabled:opacity-50"
+                    aria-label="Previous Set"
+                  >
+                    &lt;
+                  </button>
+                  <button
+                    onClick={nextSet}
+                    disabled={currentSet === totalSets}
+                    className="px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700 text-xs text-gray-700 dark:text-gray-200 disabled:opacity-50"
+                    aria-label="Next Set"
+                  >
+                    &gt;
+                  </button>
                 </div>
               )}
               {exercise.reps && <div>Reps: {exercise.reps}</div>}
-              {exercise.duration && (
-                <div className="flex items-center">
+              {(exercise.duration || isTennisBallRoll) && (
+                <div className="flex items-center space-x-2">
                   <span className="mr-2 font-medium text-gray-900 dark:text-gray-300">Duration:</span>
+                  {/* Adjustable timer for Tennis Ball Roll or rep range */}
+                  {isTennisBallRoll && !isActive && (
+                    <select
+                      value={customDuration}
+                      onChange={e => setCustomDuration(Number(e.target.value))}
+                      className="mr-2 px-2 py-1 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                      aria-label="Set timer duration"
+                    >
+                      <option value={60}>1 minute</option>
+                      <option value={90}>1.5 minutes</option>
+                      <option value={120}>2 minutes</option>
+                    </select>
+                  )}
                   <span className="font-mono font-extrabold text-3xl sm:text-4xl text-gray-900 dark:text-gray-100 tracking-widest px-2">
                     {formatTime(timeLeft)}
                   </span>
@@ -211,10 +295,17 @@ export function ExerciseCard({
               className={`ml-4 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm ${
                 isCompleted
                   ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
+                  : (totalSets > 1 && currentSet < totalSets)
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
               }`}
+              disabled={totalSets > 1 && currentSet < totalSets}
             >
-              {isCompleted ? 'Completed' : 'Mark Complete'}
+              {isCompleted
+                ? 'Completed'
+                : (totalSets > 1 && currentSet < totalSets)
+                  ? `Complete all sets to finish`
+                  : 'Mark Complete'}
             </button>
           )}
         </div>
