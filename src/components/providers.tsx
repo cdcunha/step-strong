@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, type ReactNode } from 'react';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { ThemeProvider } from './theme-provider';
+import exercisesData from '@/data/exercises.json';
 
 type AppContextType = {
   currentWeek: number;
@@ -121,40 +122,23 @@ function AppProviders({ children }: ProvidersProps) {
     setStrengtheningSessions([]);
   };
 
-  const weeklyProgress = Array(5).reduce((acc, _, index) => {
-    const weekNumber = index + 1;
-    const weekExercises = [
-      ...(weekNumber <= 2
-        ? [
-            'week1-1',
-            'week1-2',
-            'week1-3',
-            'week1-4',
-          ]
-        : weekNumber <= 4
-        ? [
-            `week3-1`,
-            `week3-2`,
-            `week3-3`,
-            `week3-4`,
-          ]
-        : [
-            'week5-1',
-            'week5-2',
-            'week5-3',
-            'week5-4',
-          ]),
-    ];
-    
-    const completedCount = weekExercises.filter((id) =>
-      completedExercises.includes(id)
-    ).length;
-    
+  const weeklyProgress = exercisesData.strengtheningProgram.weeks.reduce(
+  (acc: Record<string, number>, week: { weekNumber: number }) => {
+    // Count unique session dates for this week
+    const sessionsForWeek = strengtheningSessions.filter(
+      (s) => s.week === week.weekNumber
+    );
+    const uniqueSessionDates = Array.from(new Set(sessionsForWeek.map((s) => s.date)));
+    const completedSessions = uniqueSessionDates.length;
+    const progress = Math.min(Math.round((completedSessions / 3) * 100), 100);
     return {
       ...acc,
-      [weekNumber]: Math.round((completedCount / weekExercises.length) * 100) || 0,
+      [week.weekNumber]: progress,
     };
-  }, {} as Record<string, number>);
+  },
+  {} as Record<string, number>
+);
+
 
   return (
     <AppContext.Provider
